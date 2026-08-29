@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import { pinoHttp } from 'pino-http'
+import { logger } from './utils/logger.js'
 
 const app = express()
 
@@ -11,6 +13,7 @@ app.use(
 )
 
 app.use(express.json())
+app.use(pinoHttp({ logger }))
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
