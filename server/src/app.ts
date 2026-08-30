@@ -1,8 +1,12 @@
 import express from 'express'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import { pinoHttp } from 'pino-http'
 import { logger } from './utils/logger.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 
@@ -20,7 +24,15 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-app.use(notFoundHandler)
+// serve React's built static files
+const clientDistPath = path.join(__dirname, '../../client/dist')
+app.use(express.static(clientDistPath))
+
+app.get(/^(?!\/api).*/, (_req, res) => {
+  res.sendFile(path.join(clientDistPath, 'index.html'))
+})
+
+app.use('/api', notFoundHandler)
 app.use(errorHandler)
 
 export default app
