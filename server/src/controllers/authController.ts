@@ -24,3 +24,28 @@ export async function register(req: Request, res: Response) {
     accessToken,
   })
 }
+
+export async function login(req: Request, res: Response) {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    throw new AppError('email and password are required', 400)
+  }
+
+  const user = await User.findOne({ email }).select('+password')
+  if (!user) {
+    throw new AppError('Invalid credentials', 401)
+  }
+
+  const isMatch = await user.comparePassword(password)
+  if (!isMatch) {
+    throw new AppError('Invalid credentials', 401)
+  }
+
+  const accessToken = generateAccessToken({ userId: user.id })
+
+  res.status(200).json({
+    user: { id: user.id, username: user.username, email: user.email },
+    accessToken,
+  })
+}
