@@ -3,6 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import { pinoHttp } from 'pino-http'
+import cookieParser from 'cookie-parser'
 import { logger } from './utils/logger.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import authRoutes from './routes/authRoutes.js'
@@ -19,6 +20,7 @@ app.use(
 )
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(pinoHttp({ logger }))
 
 app.get('/api/health', (_req, res) => {
