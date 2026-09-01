@@ -5,6 +5,7 @@ import cors from 'cors'
 import { pinoHttp } from 'pino-http'
 import { logger } from './utils/logger.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
+import authRoutes from './routes/authRoutes.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -23,6 +24,8 @@ app.use(pinoHttp({ logger }))
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
+
+app.use('/api/auth', authRoutes)
 
 // serve React's built static files
 const clientDistPath = path.join(__dirname, '../../client/dist')
