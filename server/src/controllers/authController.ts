@@ -1,7 +1,8 @@
 import type { Request, Response } from 'express'
 import { User } from '../models/User.js'
-import { generateAccessToken } from '../utils/jwt.js'
+import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js'
 import { AppError } from '../middlewares/errorHandler.js'
+import { getRefreshCookieOptions } from '../utils/cookies.js'
 
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body
@@ -18,6 +19,9 @@ export async function register(req: Request, res: Response) {
   const user = await User.create({ username, email, password })
 
   const accessToken = generateAccessToken({ userId: user.id })
+  const refreshToken = generateRefreshToken({ userId: user.id })
+
+  res.cookie('refreshToken', refreshToken, getRefreshCookieOptions())
 
   res.status(201).json({
     user: { id: user.id, username: user.username, email: user.email },
@@ -43,6 +47,9 @@ export async function login(req: Request, res: Response) {
   }
 
   const accessToken = generateAccessToken({ userId: user.id })
+  const refreshToken = generateRefreshToken({ userId: user.id })
+
+  res.cookie('refreshToken', refreshToken, getRefreshCookieOptions())
 
   res.status(200).json({
     user: { id: user.id, username: user.username, email: user.email },
