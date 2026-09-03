@@ -95,3 +95,21 @@ export async function refresh(req: Request, res: Response) {
   res.cookie('refreshToken', newRefreshToken, getRefreshCookieOptions())
   res.json({ accessToken: newAccessToken })
 }
+
+export async function logout(req: Request, res: Response) {
+  const token = req.cookies.refreshToken
+
+  if (token) {
+    try {
+      const payload = verifyRefreshToken(token)
+      await User.findByIdAndUpdate(payload.userId, {
+        $inc: { tokenVersion: 1 },
+      })
+    } catch {
+      // token was already invalid/expired — nothing to invalidate, just clear the cookie below
+    }
+  }
+
+  res.clearCookie('refreshToken', getRefreshCookieOptions())
+  res.json({ message: 'Logged out successfully' })
+}
