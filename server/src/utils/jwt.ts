@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 
 export interface JwtPayload {
   userId: string
+  tokenVersion?: number // only present on refresh tokens
 }
 
 function getEnv(key: string): string {

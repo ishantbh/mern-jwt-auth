@@ -19,7 +19,10 @@ export async function register(req: Request, res: Response) {
   const user = await User.create({ username, email, password })
 
   const accessToken = generateAccessToken({ userId: user.id })
-  const refreshToken = generateRefreshToken({ userId: user.id })
+  const refreshToken = generateRefreshToken({
+    userId: user.id,
+    tokenVersion: user.tokenVersion,
+  })
 
   res.cookie('refreshToken', refreshToken, getRefreshCookieOptions())
 
@@ -36,7 +39,7 @@ export async function login(req: Request, res: Response) {
     throw new AppError('email and password are required', 400)
   }
 
-  const user = await User.findOne({ email }).select('+password')
+  const user = await User.findOne({ email }).select('+password +tokenVersion')
   if (!user) {
     throw new AppError('Invalid credentials', 401)
   }
@@ -47,7 +50,10 @@ export async function login(req: Request, res: Response) {
   }
 
   const accessToken = generateAccessToken({ userId: user.id })
-  const refreshToken = generateRefreshToken({ userId: user.id })
+  const refreshToken = generateRefreshToken({
+    userId: user.id,
+    tokenVersion: user.tokenVersion,
+  })
 
   res.cookie('refreshToken', refreshToken, getRefreshCookieOptions())
 
