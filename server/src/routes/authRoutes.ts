@@ -7,11 +7,13 @@ import {
 } from '../controllers/authController.js'
 import { type AuthedRequest, protect } from '../middlewares/protect.js'
 import { authLimiter } from '../middlewares/rateLimiter.js'
+import { validate } from '../middlewares/validate.js'
+import { registerSchema, loginSchema } from '../schemas/authSchemas.js'
 
 const router = Router()
 
-router.post('/register', authLimiter, register)
-router.post('/login', authLimiter, login)
+router.post('/register', authLimiter, validate(registerSchema), register)
+router.post('/login', authLimiter, validate(loginSchema), login)
 router.post('/refresh', refresh)
 router.post('/logout', logout)
 
