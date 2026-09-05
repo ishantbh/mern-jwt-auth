@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import { pinoHttp } from 'pino-http'
 import cookieParser from 'cookie-parser'
+import helmet from 'helmet'
 import { logger } from './utils/logger.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import authRoutes from './routes/authRoutes.js'
@@ -18,10 +19,10 @@ app.use(
     credentials: true,
   }),
 )
-
+app.use(helmet())
+app.use(pinoHttp({ logger }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(pinoHttp({ logger }))
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
