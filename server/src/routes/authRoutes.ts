@@ -6,11 +6,12 @@ import {
   logout,
 } from '../controllers/authController.js'
 import { type AuthedRequest, protect } from '../middlewares/protect.js'
+import { authLimiter } from '../middlewares/rateLimiter.js'
 
 const router = Router()
 
-router.post('/register', register)
-router.post('/login', login)
+router.post('/register', authLimiter, register)
+router.post('/login', authLimiter, login)
 router.post('/refresh', refresh)
 router.post('/logout', logout)
 
