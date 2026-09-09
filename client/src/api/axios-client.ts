@@ -19,6 +19,11 @@ interface RetriableConfig extends InternalAxiosRequestConfig {
   _retry?: boolean
 }
 
+const noRetryEndpoints = ['/auth/login', '/auth/register', '/auth/refresh']
+
+let isRefreshing = false
+let refreshQueue: Array<(token: string) => void> = []
+
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -28,14 +33,27 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error)
     }
 
-    const isAuthEndpoint = originalRequest?.url?.includes('/auth')
+    const shouldSkipRetry = noRetryEndpoints.some((path) =>
+      originalRequest.url?.includes(path),
+    )
 
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !isAuthEndpoint
+      !shouldSkipRetry
     ) {
+      if (isRefreshing) {
+        // a refresh is already in flight, queue this request
+        return new Promise((resolve) => {
+          refreshQueue.push((newToken: string) => {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`
+            resolve(axiosClient(originalRequest))
+          })
+        })
+      }
+
       originalRequest._retry = true
+      isRefreshing = true
 
       try {
         const { data } = await axios.post<{ accessToken: string }>(
@@ -45,13 +63,18 @@ axiosClient.interceptors.response.use(
         )
 
         useBoundStore.getState().setAccessToken(data.accessToken)
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`
+        refreshQueue.forEach((resolveQueued) => resolveQueued(data.accessToken))
+        refreshQueue = []
 
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`
         return axiosClient(originalRequest)
       } catch (refreshError) {
         useBoundStore.getState().clearAuth()
+        refreshQueue = []
         window.location.href = '/login'
         return Promise.reject(refreshError)
+      } finally {
+        isRefreshing = false
       }
     }
 
