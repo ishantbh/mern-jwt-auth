@@ -7,6 +7,7 @@ import {
 } from '../utils/jwt.js'
 import { getRefreshCookieOptions } from '../utils/cookies.js'
 import { AppError } from '../middlewares/errorHandler.js'
+import type { AuthedRequest } from '../middlewares/protect.js'
 
 export async function register(req: Request, res: Response) {
   const { username, email, password } = req.body
@@ -112,4 +113,16 @@ export async function logout(req: Request, res: Response) {
 
   res.clearCookie('refreshToken', getRefreshCookieOptions())
   res.json({ message: 'Logged out successfully' })
+}
+
+export async function getMe(req: AuthedRequest, res: Response) {
+  const user = await User.findById(req.userId)
+
+  if (!user) {
+    throw new AppError('User not found', 404)
+  }
+
+  res.json({
+    user: { id: user.id, username: user.username, email: user.email },
+  })
 }

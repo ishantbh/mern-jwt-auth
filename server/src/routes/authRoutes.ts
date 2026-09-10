@@ -4,8 +4,9 @@ import {
   login,
   refresh,
   logout,
+  getMe,
 } from '../controllers/authController.js'
-import { type AuthedRequest, protect } from '../middlewares/protect.js'
+import { protect } from '../middlewares/protect.js'
 import { authLimiter } from '../middlewares/rateLimiter.js'
 import { validate } from '../middlewares/validate.js'
 import { registerSchema, loginSchema } from '../schemas/authSchemas.js'
@@ -17,8 +18,6 @@ router.post('/login', authLimiter, validate(loginSchema), login)
 router.post('/refresh', refresh)
 router.post('/logout', logout)
 
-router.get('/test-protected', protect, (req: AuthedRequest, res) => {
-  res.json({ message: 'You are authenticated', userId: req.userId })
-})
+router.get('/me', protect, getMe)
 
 export default router
