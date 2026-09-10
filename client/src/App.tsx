@@ -6,6 +6,7 @@ import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
 import Dashboard from './pages/dashboard'
+import { Spinner } from './components/ui/spinner'
 
 export default function App() {
   const [isBootstrapping, setIsBootstrapping] = useState(true)
@@ -18,7 +19,7 @@ export default function App() {
   if (isBootstrapping) {
     return (
       <div className='flex min-h-screen items-center justify-center text-muted-foreground'>
-        Loading...
+        <Spinner className='size-8' />
       </div>
     )
   }
