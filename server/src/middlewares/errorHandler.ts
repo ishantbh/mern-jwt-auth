@@ -34,7 +34,7 @@ export function errorHandler(
   logger.error({ err }, message)
 
   res.status(statusCode).json({
-    status: 'error',
+    message,
     ...(process.env.NODE_ENV !== 'production' && { stack: err.stack }),
   })
 }
