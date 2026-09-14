@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate, Link } from 'react-router'
+import { useNavigate, Link, useLocation } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -16,6 +16,9 @@ import { loginSchema, type LoginFormValues } from '@/schemas/auth-schemas'
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const from =
+    (location.state as { from?: Location })?.from?.pathname ?? '/dashboard'
   const setAuth = useBoundStore((s) => s.setAuth)
   const [serverError, setServerError] = useState<string | null>(null)
 
@@ -35,7 +38,7 @@ export default function Login() {
     try {
       const { data } = await axiosClient.post('/auth/login', values)
       setAuth(data.user, data.accessToken)
-      navigate('/dashboard')
+      navigate(from, { replace: true })
     } catch (err: any) {
       setServerError(
         err.response?.data?.message ??
