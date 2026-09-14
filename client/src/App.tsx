@@ -7,6 +7,7 @@ import Login from './pages/login'
 import Register from './pages/register'
 import Dashboard from './pages/dashboard'
 import { Spinner } from './components/ui/spinner'
+import ProtectedRoute from './routes/protected-route'
 
 export default function App() {
   const [isBootstrapping, setIsBootstrapping] = useState(true)
@@ -31,7 +32,10 @@ export default function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
