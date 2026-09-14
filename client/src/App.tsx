@@ -8,6 +8,7 @@ import Register from './pages/register'
 import Dashboard from './pages/dashboard'
 import { Spinner } from './components/ui/spinner'
 import ProtectedRoute from './routes/protected-route'
+import PublicOnlyRoute from './routes/public-only-route'
 
 export default function App() {
   const [isBootstrapping, setIsBootstrapping] = useState(true)
@@ -30,8 +31,11 @@ export default function App() {
       <Routes>
         <Route element={<RootLayout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
+
+          <Route element={<PublicOnlyRoute />}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Route>
 
           <Route element={<ProtectedRoute />}>
             <Route path='/dashboard' element={<Dashboard />} />
