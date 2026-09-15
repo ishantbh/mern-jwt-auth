@@ -1,5 +1,5 @@
 {
-  "name": "chat-app",
+  "name": "mern-jwt-auth",
   "private": true,
   "scripts": {
     "dev:client": "npm run dev --prefix client",

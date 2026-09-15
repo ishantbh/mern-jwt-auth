@@ -55,7 +55,7 @@ export default function Register() {
         <div className='text-center'>
           <h1 className='text-2xl font-bold'>Create an account</h1>
           <p className='text-sm text-muted-foreground'>
-            Start chatting in seconds
+            Get started in seconds
           </p>
         </div>
 

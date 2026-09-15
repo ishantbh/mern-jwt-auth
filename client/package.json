@@ -1,5 +1,5 @@
 {
-  "name": "chat-app-client",
+  "name": "mern-jwt-auth-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
