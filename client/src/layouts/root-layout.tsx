@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Toaster } from '@/components/ui/sonner'
 
 export default function RootLayout() {
   return (
@@ -10,6 +11,7 @@ export default function RootLayout() {
       <main className='flex-1'>
         <Outlet />
       </main>
+      <Toaster />
     </div>
   )
 }
