@@ -48,7 +48,7 @@ export default function Login() {
   }
 
   return (
-    <div className='flex min-h-[80vh] items-center justify-center px-4'>
+    <div className='flex-1 flex min-h-[80vh] items-center justify-center px-4'>
       <div className='w-full max-w-sm space-y-6'>
         <div className='text-center'>
           <h1 className='text-2xl font-bold'>Welcome back</h1>
