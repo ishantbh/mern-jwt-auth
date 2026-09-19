@@ -1,4 +1,4 @@
-# 🔐 MERN JWT Authentication System
+# MERN JWT Authentication System
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-mern--jwt--auth.up.railway.app-34d399?style=for-the-badge&logo=railway&logoColor=white)](https://mern-jwt-auth.up.railway.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
@@ -10,12 +10,12 @@
 
 > **A production-grade, secure full-stack authentication boilerplate built on the MERN stack.** Engineered with strict separation of token concerns: ephemeral in-memory access tokens, encrypted `httpOnly` refresh tokens, race-condition-resilient Axios request queuing, and instant server-side session invalidation via token versioning.
 
-🔗 **Live Application**: [https://mern-jwt-auth.up.railway.app](https://mern-jwt-auth.up.railway.app)  
-📦 **Source Repository**: [https://github.com/ishantbh/mern-jwt-auth](https://github.com/ishantbh/mern-jwt-auth)
+**Live Application**: [https://mern-jwt-auth.up.railway.app](https://mern-jwt-auth.up.railway.app)  
+**Source Repository**: [https://github.com/ishantbh/mern-jwt-auth](https://github.com/ishantbh/mern-jwt-auth)
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Overview & Problem Statement](#-overview--problem-statement)
 - [Key Features & Security Highlights](#-key-features--security-highlights)
@@ -37,7 +37,7 @@
 
 ---
 
-## 🎯 Overview & Problem Statement
+## Overview & Problem Statement
 
 Most single-page web applications implement authentication unsafely by storing JSON Web Tokens (JWTs) inside browser `localStorage` or `sessionStorage`. While convenient, **any token stored in client storage is vulnerable to exfiltration via Cross-Site Scripting (XSS)**. Conversely, storing raw access tokens in cookies often exposes apps to Cross-Site Request Forgery (CSRF).
 
@@ -50,9 +50,10 @@ This project demonstrates a battle-tested enterprise authentication pattern solv
 
 ---
 
-## 🚀 Key Features & Security Highlights
+## Key Features & Security Highlights
 
-### 🛡️ Authentication & Authorization
+### Authentication & Authorization
+
 - **Dual-Token Flow**: 15-minute JWT Access Tokens + 7-day Rotating Refresh Tokens.
 - **Silent Refresh on Startup**: Automatic session restoration via `/api/auth/refresh` on page reload without flashing unauthenticated screens.
 - **Session Revocation via `tokenVersion`**: Invalidate all sessions globally upon logout or security events without persistent token blacklists.
@@ -60,7 +61,8 @@ This project demonstrates a battle-tested enterprise authentication pattern solv
 - **Helmet Security Headers**: Automatically applies HTTP security headers (CSP, HSTS, X-Content-Type-Options, etc.).
 - **Password Security**: Strong hashing with `bcryptjs` utilizing adaptive salt rounds.
 
-### 💻 Client Experience & State Management
+### Client Experience & State Management
+
 - **React 19 & React Compiler**: Built with the latest React release optimized with `@vitejs/plugin-react` and `babel-plugin-react-compiler` for automated memoization.
 - **Zustand Store**: Lightweight, predictable state management storing credentials and user details in-memory without persistent leakage.
 - **Client & Server Schema Validation**: End-to-end schema synchronization with **Zod 4** and **React Hook Form**.
@@ -69,7 +71,7 @@ This project demonstrates a battle-tested enterprise authentication pattern solv
 
 ---
 
-## 🏗️ System Architecture & Sequence Flows
+## System Architecture & Sequence Flows
 
 ### High-Level Architecture
 
@@ -183,56 +185,59 @@ sequenceDiagram
 
 ---
 
-## 📸 Screenshots & UI Showcase
+## Screenshots & UI Showcase
 
 The user interface is built with **Tailwind CSS v4** and **Radix UI / Shadcn**, featuring responsive layouts, fluid typography, dark/light themes, and accessible form controls.
 
-| Landing Page (Dark Theme) | Landing Page (Light Theme) |
-| :---: | :---: |
+|              Landing Page (Dark Theme)              |                 Landing Page (Light Theme)                 |
+| :-------------------------------------------------: | :--------------------------------------------------------: |
 | ![Landing Page Dark](./public/screenshots/home.png) | ![Landing Page Light](./public/screenshots/home-light.png) |
 
-| Secure Registration | Authenticated Dashboard |
-| :---: | :---: |
+|                 Secure Registration                 |             Authenticated Dashboard              |
+| :-------------------------------------------------: | :----------------------------------------------: |
 | ![Register Form](./public/screenshots/register.png) | ![Dashboard](./public/screenshots/dashboard.png) |
 
-| Login with Real-Time Validation |
-| :---: |
+|        Login with Real-Time Validation        |
+| :-------------------------------------------: |
 | ![Login Form](./public/screenshots/login.png) |
 
 ---
 
-## 🛠️ Tech Stack & Engineering Rationale
+## Tech Stack & Engineering Rationale
 
-| Category | Technology | Version | Engineering Role & Rationale |
-| :--- | :--- | :--- | :--- |
-| **Frontend Framework** | [React](https://react.dev/) | `^19.2.8` | Latest React version utilizing concurrent features and seamless state transitions. |
-| **Compiler & Build Tool** | [Vite](https://vitejs.dev/) + [React Compiler](https://react.dev/learn/react-compiler) | `^8.3.0` | Ultra-fast HMR and build speeds with automated compiler-level memoization. |
-| **Routing** | [React Router](https://reactrouter.com/) | `^8.4.0` | Declarative client-side routing with specialized layout wrappers and route guards. |
-| **State Management** | [Zustand](https://zustand.docs.pmnd.rs/) | `^5.0.15` | Minimal boilerplate store for keeping the ephemeral access token exclusively in memory. |
-| **Styling & UI** | [Tailwind CSS](https://tailwindcss.com/) + [Radix UI](https://www.radix-ui.com/) | `v4.3.3` | Modern CSS engine with accessible, unstyled UI primitives and dynamic theming. |
-| **Form Handling** | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) | `^7.88` / `^4.6` | High-performance uncontrolled form handling with synchronous schema validation. |
-| **HTTP Client** | [Axios](https://axios-http.com/) | `^1.20.0` | Custom interceptor architecture with request queues for automated token refresh. |
-| **Backend Runtime** | [Node.js](https://nodejs.org/) & [Express](https://expressjs.com/) | `^5.2.1` | Express 5 native async route handling, modular architecture, and static SPA serving. |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | `^7.0.2` | Full-stack end-to-end type safety, typed middleware, and schema inference. |
-| **Database & ODM** | [MongoDB](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/) | `^9.10.1` | Document storage with schema hooks (`pre-save` bcrypt hashing) and projection controls. |
-| **Security & Auditing** | [Helmet](https://helmetjs.github.io/) / [Express Rate Limit](https://github.com/express-rate-limit/express-rate-limit) | `^8.3` / `^8.7` | HTTP header hardening, rate limiting, and brute-force mitigation. |
-| **Logging** | [Pino](https://getpino.com/) + [Pino-HTTP](https://github.com/pinojs/pino-http) | `^10.3.1` | Ultra-low overhead structured JSON logging for observability in production. |
+| Category                  | Technology                                                                                                             | Version          | Engineering Role & Rationale                                                            |
+| :------------------------ | :--------------------------------------------------------------------------------------------------------------------- | :--------------- | :-------------------------------------------------------------------------------------- |
+| **Frontend Framework**    | [React](https://react.dev/)                                                                                            | `^19.2.8`        | Latest React version utilizing concurrent features and seamless state transitions.      |
+| **Compiler & Build Tool** | [Vite](https://vitejs.dev/) + [React Compiler](https://react.dev/learn/react-compiler)                                 | `^8.3.0`         | Ultra-fast HMR and build speeds with automated compiler-level memoization.              |
+| **Routing**               | [React Router](https://reactrouter.com/)                                                                               | `^8.4.0`         | Declarative client-side routing with specialized layout wrappers and route guards.      |
+| **State Management**      | [Zustand](https://zustand.docs.pmnd.rs/)                                                                               | `^5.0.15`        | Minimal boilerplate store for keeping the ephemeral access token exclusively in memory. |
+| **Styling & UI**          | [Tailwind CSS](https://tailwindcss.com/) + [Radix UI](https://www.radix-ui.com/)                                       | `v4.3.3`         | Modern CSS engine with accessible, unstyled UI primitives and dynamic theming.          |
+| **Form Handling**         | [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)                                              | `^7.88` / `^4.6` | High-performance uncontrolled form handling with synchronous schema validation.         |
+| **HTTP Client**           | [Axios](https://axios-http.com/)                                                                                       | `^1.20.0`        | Custom interceptor architecture with request queues for automated token refresh.        |
+| **Backend Runtime**       | [Node.js](https://nodejs.org/) & [Express](https://expressjs.com/)                                                     | `^5.2.1`         | Express 5 native async route handling, modular architecture, and static SPA serving.    |
+| **Language**              | [TypeScript](https://www.typescriptlang.org/)                                                                          | `^7.0.2`         | Full-stack end-to-end type safety, typed middleware, and schema inference.              |
+| **Database & ODM**        | [MongoDB](https://www.mongodb.com/) + [Mongoose](https://mongoosejs.com/)                                              | `^9.10.1`        | Document storage with schema hooks (`pre-save` bcrypt hashing) and projection controls. |
+| **Security & Auditing**   | [Helmet](https://helmetjs.github.io/) / [Express Rate Limit](https://github.com/express-rate-limit/express-rate-limit) | `^8.3` / `^8.7`  | HTTP header hardening, rate limiting, and brute-force mitigation.                       |
+| **Logging**               | [Pino](https://getpino.com/) + [Pino-HTTP](https://github.com/pinojs/pino-http)                                        | `^10.3.1`        | Ultra-low overhead structured JSON logging for observability in production.             |
 
 ---
 
-## 🔒 Security Engineering & Design Trade-offs
+## Security Engineering & Design Trade-offs
 
 ### 1. In-Memory Token Storage vs. `localStorage`
-| Vector | `localStorage` | In-Memory (Zustand) + `httpOnly` Cookie |
-| :--- | :--- | :--- |
-| **XSS Vulnerability** | ❌ **High**: Any injected script can read `localStorage.getItem('token')`. | ✅ **Mitigated**: JavaScript cannot access the `httpOnly` cookie; memory space is isolated. |
-| **CSRF Vulnerability** | ✅ **None** (Requires custom Authorization header). | ✅ **Mitigated**: `SameSite=Strict/Lax` + path scoped strictly to `/api/auth`. |
-| **Persistence** | Persists across tab reloads automatically. | Restored seamlessly via silent `/api/auth/refresh` on app load. |
+
+| Vector                 | `localStorage`                                                          | In-Memory (Zustand) + `httpOnly` Cookie                                                  |
+| :--------------------- | :---------------------------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| **XSS Vulnerability**  | **High**: Any injected script can read `localStorage.getItem('token')`. | **Mitigated**: JavaScript cannot access the `httpOnly` cookie; memory space is isolated. |
+| **CSRF Vulnerability** | **None** (Requires custom Authorization header).                        | **Mitigated**: `SameSite=Strict/Lax` + path scoped strictly to `/api/auth`.              |
+| **Persistence**        | Persists across tab reloads automatically.                              | Restored seamlessly via silent `/api/auth/refresh` on app load.                          |
 
 ### 2. Session Invalidation via `tokenVersion`
-Maintaining a centralized blacklist of revoked tokens in Redis adds operational complexity and infrastructure overhead. 
+
+Maintaining a centralized blacklist of revoked tokens in Redis adds operational complexity and infrastructure overhead.
 
 Instead, this project utilizes **Token Versioning**:
+
 1. The `User` MongoDB model contains a `tokenVersion: { type: Number, default: 0, select: false }` field.
 2. The refresh token payload encodes `{ userId, tokenVersion }`.
 3. When `/api/auth/refresh` is requested, the token’s version is validated against the database value.
@@ -240,11 +245,12 @@ Instead, this project utilizes **Token Versioning**:
 5. Every previously issued refresh token becomes immediately invalid without requiring a separate caching tier.
 
 ### 3. Request Queue Synchronization
+
 If a user triggers three simultaneous dashboard API calls when their token expires, a naive client would trigger three concurrent `/api/auth/refresh` requests, causing race conditions and unnecessary database writes. The custom Axios interceptor implemented in [`client/src/api/axios-client.ts`](client/src/api/axios-client.ts) flags `isRefreshing = true` on the first 401 and parks subsequent requests in `refreshQueue`, releasing all queued requests once the primary refresh completes.
 
 ---
 
-## 📡 API Reference
+## API Reference
 
 Base URL in development: `http://localhost:3000/api`  
 Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
@@ -252,6 +258,7 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
 ### Endpoints
 
 #### 1. Register Account
+
 - **Endpoint**: `POST /api/auth/register`
 - **Rate Limit**: 10 requests / 15 minutes
 - **Request Body**:
@@ -266,7 +273,11 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
   - `201 Created`: Sets `refreshToken` cookie and returns:
     ```json
     {
-      "user": { "id": "66f...", "username": "johndoe", "email": "john@example.com" },
+      "user": {
+        "id": "66f...",
+        "username": "johndoe",
+        "email": "john@example.com"
+      },
       "accessToken": "eyJhbGci..."
     }
     ```
@@ -274,6 +285,7 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
   - `400 Bad Request`: Validation failure.
 
 #### 2. User Login
+
 - **Endpoint**: `POST /api/auth/login`
 - **Rate Limit**: 10 requests / 15 minutes
 - **Request Body**:
@@ -288,6 +300,7 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
   - `401 Unauthorized`: Invalid credentials.
 
 #### 3. Refresh Access Token
+
 - **Endpoint**: `POST /api/auth/refresh`
 - **Headers**: Cookie `refreshToken=<jwt>` (automatic in browser)
 - **Responses**:
@@ -300,6 +313,7 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
   - `401 Unauthorized`: Token missing, expired, or version mismatch.
 
 #### 4. User Logout
+
 - **Endpoint**: `POST /api/auth/logout`
 - **Description**: Increments `tokenVersion` in the database, clears the client `refreshToken` cookie.
 - **Responses**:
@@ -311,6 +325,7 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
     ```
 
 #### 5. Get Current User Profile
+
 - **Endpoint**: `GET /api/auth/me`
 - **Headers**: `Authorization: Bearer <accessToken>`
 - **Responses**:
@@ -327,13 +342,14 @@ Base URL in production: `https://mern-jwt-auth.up.railway.app/api`
   - `401 Unauthorized`: Missing or invalid Bearer token.
 
 #### 6. Health Check
+
 - **Endpoint**: `GET /api/health`
 - **Responses**:
   - `200 OK`: `{ "status": "ok", "timestamp": "2026-09-19T17:48:00.000Z" }`
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```text
 mern-jwt-auth/
@@ -376,9 +392,10 @@ mern-jwt-auth/
 
 ---
 
-## 💻 Local Development Guide
+## Local Development Guide
 
 ### Prerequisites
+
 - **Node.js**: v18+ or v20+ recommended
 - **npm** or **pnpm**
 - **MongoDB**: Local MongoDB instance or free [MongoDB Atlas Cluster](https://www.mongodb.com/atlas)
@@ -406,12 +423,14 @@ JWT_REFRESH_EXPIRY=7d
 ### Installation & Running
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/ishantbh/mern-jwt-auth.git
    cd mern-jwt-auth
    ```
 
 2. **Install all dependencies** (or use the root install script):
+
    ```bash
    cd client && npm install
    cd ../server && npm install
@@ -421,12 +440,14 @@ JWT_REFRESH_EXPIRY=7d
 3. **Start Development Servers concurrently**:
 
    In Terminal 1 (Start the Express API server with TSX hot reload):
+
    ```bash
    npm run dev:server
    # Server runs at http://localhost:3000
    ```
 
    In Terminal 2 (Start the Vite dev server):
+
    ```bash
    npm run dev:client
    # Client runs at http://localhost:5173
@@ -436,7 +457,7 @@ JWT_REFRESH_EXPIRY=7d
 
 ---
 
-## 🚀 Production Deployment
+## Production Deployment
 
 The project is architected for unified single-service hosting platforms like **Railway**, **Render**, or **Heroku**:
 
@@ -458,6 +479,6 @@ The project is architected for unified single-service hosting platforms like **R
 
 ---
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
